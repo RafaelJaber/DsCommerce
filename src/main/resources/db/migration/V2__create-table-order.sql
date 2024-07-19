@@ -1,7 +1,7 @@
 CREATE TABLE tb_order
 (
     id      bigint IDENTITY (1, 1) NOT NULL,
-    moment  datetime2(6),
+    moment  datetime2,
     status  varchar(255),
     user_id bigint,
     CONSTRAINT pk_tb_order PRIMARY KEY (id)

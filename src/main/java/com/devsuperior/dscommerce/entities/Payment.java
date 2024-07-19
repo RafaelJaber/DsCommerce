@@ -8,14 +8,13 @@ import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 
-
 @Entity
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "tb_order")
-public class Order {
+@Table(name = "tb_payment")
+public class Payment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,13 +23,7 @@ public class Order {
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant moment;
 
-    @Enumerated(EnumType.STRING)
-    private OrderStatus status;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User client;
-
-    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
-    private Payment payment;
+    @OneToOne
+    @MapsId
+    private Order order;
 }
