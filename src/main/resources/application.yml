@@ -1,1 +1,7 @@
-spring.application.name=dscommerce
+spring:
+  application:
+    name: DsCommerce
+  datasource:
+    url: jdbc:sqlserver://localhost:1433;databaseName=ds_commerce;trustServerCertificate=true;
+    username: sa
+    password: Senha*01#

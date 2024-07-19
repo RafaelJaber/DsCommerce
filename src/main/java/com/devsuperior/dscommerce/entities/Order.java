@@ -1,0 +1,33 @@
+package com.devsuperior.dscommerce.entities;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.Instant;
+
+
+@Entity
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "tb_order")
+public class Order {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant moment;
+
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User client;
+}
