@@ -1,17 +1,15 @@
 package com.devsuperior.dscommerce.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -43,4 +41,6 @@ public class Product {
     public List<Order> getOrders() {
         return items.stream().map(OrderItem::getOrder).toList();
     }
+
+
 }
