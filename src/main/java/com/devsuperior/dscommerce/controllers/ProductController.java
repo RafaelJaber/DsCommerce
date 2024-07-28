@@ -6,11 +6,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -32,8 +31,16 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<Page<ProductDTO>> findAll(Pageable pageable) {
-        Page<ProductDTO> list = productService.findAll(pageable);
+        Page<ProductDTO> productDTOPage = productService.findAll(pageable);
 
-        return ResponseEntity.status(HttpStatus.OK).body(list);
+        return ResponseEntity.status(HttpStatus.OK).body(productDTOPage);
+    }
+
+    @PostMapping
+    public ResponseEntity<ProductDTO> insert(@RequestBody ProductDTO dto) {
+        ProductDTO inserted = productService.insert(dto);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(inserted.getId()).toUri();
+        return ResponseEntity.created(uri).body(inserted);
     }
 }

@@ -8,9 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
-
 @Service
 public class ProductService {
 
@@ -34,5 +31,19 @@ public class ProductService {
         Page<Product> result = productRepository.findAll(pageable);
 
         return result.map(ProductDTO::new);
+    }
+
+    @Transactional
+    public ProductDTO insert(ProductDTO dto) {
+        Product entity = Product.builder()
+                .name(dto.getName())
+                .description(dto.getDescription())
+                .imgUrl(dto.getImageUrl())
+                .price(dto.getPrice())
+                .build();
+
+        Product inserted = productRepository.save(entity);
+
+        return new ProductDTO(inserted);
     }
 }
