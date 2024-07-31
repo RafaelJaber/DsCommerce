@@ -17,24 +17,23 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<CustomError> resourceNotFoundExceptionHandler(ResourceNotFoundException ex, HttpServletRequest request) {
         HttpStatus status = HttpStatus.NOT_FOUND;
-        CustomError err = CustomError.builder()
-                .timestamp(Instant.now())
-                .status(status.value())
-                .error(ex.getMessage())
-                .path(request.getRequestURI())
-                .build();
+        CustomError err = getCustomError(status, ex.getMessage(), request);
         return ResponseEntity.status(status).body(err);
     }
 
     @ExceptionHandler(DatabaseException.class)
     public ResponseEntity<CustomError> databaseExceptionHandler(DatabaseException ex, HttpServletRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
-        CustomError err = CustomError.builder()
+        CustomError err = getCustomError(status, ex.getMessage(), request);
+        return ResponseEntity.status(status).body(err);
+    }
+
+    private static CustomError getCustomError(HttpStatus status, String ex, HttpServletRequest request) {
+        return CustomError.builder()
                 .timestamp(Instant.now())
                 .status(status.value())
-                .error(ex.getMessage())
+                .error(ex)
                 .path(request.getRequestURI())
                 .build();
-        return ResponseEntity.status(status).body(err);
     }
 }
