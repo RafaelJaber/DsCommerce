@@ -1,6 +1,5 @@
 package com.devsuperior.dscommerce.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.Instant;
