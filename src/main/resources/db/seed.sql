@@ -68,6 +68,15 @@ INSERT INTO tb_user (name, email, phone, password, birth_date) VALUES
     ('Maria Brown', 'maria@gmail.com', '988888888', '123456', '2001-07-25'),
     ('Alex Green', 'alex@gmail.com', '977777777', '123456', '1987-12-13');
 
+INSERT INTO tb_role (authority) VALUES
+    ('ROLE_CLIENT'),
+    ('ROLE_ADMIN');
+
+INSERT INTO tb_user_role (user_id, role_id) VALUES
+    (1, 1),
+    (2, 1),
+    (2, 2);
+
 -- Inserindo dados na tabela tb_order
 INSERT INTO tb_order (moment, status, client_id) VALUES
     ('2022-07-25T13:00:00+00:00', 1, 1),
