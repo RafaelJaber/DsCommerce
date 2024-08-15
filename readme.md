@@ -98,6 +98,10 @@ java -jar target/dscommerce-0.0.1-SNAPSHOT.jar
 | <kbd>POST /products</kbd>            | Cadastrar produto - Necessário permissão admin                 |
 | <kbd>PUT /products/{productId}</kbd> | Atualizar produto informando o id - Necessário permissão admin |
 | <kbd>DEL /products/{productId}</kbd> | Deletar produto informando o id - Necessário permissão admin   |
+| <kbd>GET /orders/{orderId}</kbd>     | Buscar pedidos - Admin ou o seu pedido                         |
+| <kbd>POST /orders</kbd>              | Cadastrar pedidos - Necessário permissão client                |
+| <kbd>GET /users/me</kbd>             | Busca seus dados de perfil - Necessário estar autenticado      |
+| <kbd>GET /categories</kbd>           | Buscar categorias - Sem Autenticação                           |
 
 
 <h2 id="colab">🤝 Colaboradores</h2>
