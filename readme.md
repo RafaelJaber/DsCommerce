@@ -21,7 +21,7 @@
 <p align="center">
  <a href="#tech">Tecnologias</a> • 
  <a href="#started">Getting Started</a> • 
-  <a href="#routes">API Endpoints</a> •
+  <a href="#routes">Endpoints da API</a> •
  <a href="#colab">Colaboradores</a> •
 </p>
 
@@ -31,18 +31,22 @@
 
 <h2 id="tech">💻 Tecnologias</h2>
 
-- Java
-- Spring
-- Spring Security
-- Spring Data JPA
-- Flyway
-- Microsoft SQL Server
-- Docker
-- Swagger
+Este projeto utiliza as seguintes tecnologias e frameworks:
+
+- **Java 21**: Linguagem de programação para o desenvolvimento backend.
+- **Spring Framework**: Framework para criação de aplicações Java robustas e escaláveis.
+- **Spring Security**: Módulo do Spring para segurança e controle de acesso.
+- **Spring Data JPA**: Abstração de persistência de dados baseada no JPA.
+- **Flyway**: Ferramenta de versionamento e migração de banco de dados.
+- **Microsoft SQL Server**: Banco de dados relacional utilizado na aplicação.
+- **Docker**: Ferramenta para criação e gerenciamento de containers.
+- **Swagger**: Ferramenta para documentação e teste de APIs.
 
 <h2 id="started">🚀 Getting started</h2>
 
 <h3>Pré-requisitos</h3>
+
+Antes de começar, você precisará ter os seguintes softwares instalados em sua máquina:
 
 - [Docker](https://www.docker.com/)
 - [Docker Compose](https://docs.docker.com/compose/)
@@ -51,27 +55,29 @@
 
 <h3>Clone</h3>
 
+Para clonar o repositório do projeto, execute o seguinte comando no terminal:
+
 ```bash
 git clone https://github.com/RafaelJaber/DsCommerce.git
 ```
 
-<h3>Starting</h3>
+<h3>Iniciando o Projeto</h3>
 
-Para iniciar o projeto:
+Navegue até o diretório do projeto e suba os containers Docker:
 
 ```bash
 cd dscommerce
 docker-compose up -d
 ```
 
-<h3>Seed</h3>
+<h3>Carregando o Banco de Dados</h3>
 
-- Abra o arquivo de seed na pasta: 'src/main/resources/db/seed.sql'
-- Execute os inserts no banco de dados.
+Localize o arquivo de seed na pasta: 'src/main/resources/db/seed.sql'.
+Execute os scripts de insert no banco de dados para popular as tabelas iniciais.
 
-<h3>Run</h3>
+<h3>Rodando a Aplicação</h3>
 
-- Inicie a classe DscommerceApplication por uma IDE ou então compile o projeto pelo mavem com os seguintes passos:
+Para iniciar a aplicação, você pode utilizar uma IDE ou seguir os passos abaixo para compilar e rodar via Maven:
 
 ```bash
 ./mvnw deploy
@@ -81,7 +87,7 @@ docker-compose up -d
 java -jar target/dscommerce-0.0.1-SNAPSHOT.jar
 ```
 
-<h2 id="routes">📍 API Endpoints</h2>
+<h2 id="routes">📍 Endpoints da API</h2>
 
 | Rota                                 | Descrição                                                      |
 |--------------------------------------|----------------------------------------------------------------|
