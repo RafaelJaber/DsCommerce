@@ -28,6 +28,7 @@ public class ProductDTO {
     @NotBlank(message = "Field required")
     private String description;
 
+    @NotNull(message = "Field required")
     @Positive(message = "The price must be positive")
     private Double price;
 
