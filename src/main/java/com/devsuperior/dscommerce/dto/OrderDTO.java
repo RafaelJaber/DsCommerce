@@ -3,6 +3,7 @@ package com.devsuperior.dscommerce.dto;
 import com.devsuperior.dscommerce.entities.Order;
 import com.devsuperior.dscommerce.entities.OrderItem;
 import com.devsuperior.dscommerce.entities.OrderStatus;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,6 +27,7 @@ public class OrderDTO {
 
     private PaymentDTO payment;
 
+    @NotEmpty(message = "Must have minimum one item")
     private List<OrderItemDTO> items = new ArrayList<>();
 
 
