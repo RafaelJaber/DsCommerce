@@ -79,9 +79,9 @@ INSERT INTO tb_user_role (user_id, role_id) VALUES
 
 -- Inserindo dados na tabela tb_order
 INSERT INTO tb_order (moment, status, client_id) VALUES
-    ('2022-07-25T13:00:00+00:00', 1, 1),
-    ('2022-07-29T15:50:00+00:00', 3, 2),
-    ('2022-08-03T14:20:00+00:00', 0, 1);
+    ('2022-07-25T13:00:00+00:00', 'SHIPPED', 1),
+    ('2022-07-29T15:50:00+00:00', 'DELIVERED', 2),
+    ('2022-08-03T14:20:00+00:00', 'WAITING_PAYMENT', 1);
 
 -- Inserindo dados na tabela tb_order_item
 INSERT INTO tb_order_item (order_id, product_id, quantity, price) VALUES
