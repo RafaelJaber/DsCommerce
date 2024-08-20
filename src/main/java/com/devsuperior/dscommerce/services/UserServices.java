@@ -6,6 +6,7 @@ import com.devsuperior.dscommerce.entities.User;
 import com.devsuperior.dscommerce.projections.UserDetailsProjection;
 import com.devsuperior.dscommerce.repositories.UserRepository;
 import com.devsuperior.dscommerce.services.exceptions.UserNotLoggedException;
+import com.devsuperior.dscommerce.utils.CustomUserUtil;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,9 +22,11 @@ import java.util.List;
 public class UserServices implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final CustomUserUtil customUserUtil;
 
-    public UserServices(UserRepository userRepository) {
+    public UserServices(UserRepository userRepository, CustomUserUtil customUserUtil) {
         this.userRepository = userRepository;
+        this.customUserUtil = customUserUtil;
     }
 
     @Override
@@ -53,9 +56,7 @@ public class UserServices implements UserDetailsService {
     }
 
     protected User authenticated() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Jwt jwtPrincipal = (Jwt) authentication.getPrincipal();
-        String username = jwtPrincipal.getClaim("username");
+        String username = customUserUtil.getLoggedUserName();
 
         return userRepository.findByEmail(username).orElseThrow(
                 UserNotLoggedException::new
