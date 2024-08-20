@@ -20,7 +20,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,6 +38,7 @@ public class ProductServiceTests {
     private long existingProductId, nonExistingProductId;
     private String productName;
     private Product product;
+    private ProductDTO productDTO;
     private PageImpl<Product> productPage;
 
     @BeforeEach
@@ -47,12 +47,13 @@ public class ProductServiceTests {
         nonExistingProductId = 2L;
         productName = "Playstation 5";
         product = ProductFactory.createProduct(productName);
+        productDTO = new ProductDTO(product);
         productPage = new PageImpl<>(List.of(product));
 
         Mockito.when(productRepository.findById(existingProductId)).thenReturn(Optional.of(product));
         Mockito.when(productRepository.findById(nonExistingProductId)).thenReturn(Optional.empty());
-
         Mockito.when(productRepository.searchByName(any(), any(Pageable.class))).thenReturn(productPage);
+        Mockito.when(productRepository.save(any())).thenReturn(product);
     }
 
     @Test
@@ -82,5 +83,18 @@ public class ProductServiceTests {
         Assertions.assertNotNull(result);
         Assertions.assertEquals(result.getSize(), 1);
         Assertions.assertEquals(result.getContent().getFirst().getName(), productName);
+    }
+
+    @Test
+    public void insertShouldReturnProductDTO() {
+        ProductDTO result = productService.insert(productDTO);
+
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(result.getId(), product.getId());
+        Assertions.assertEquals(result.getName(), product.getName());
+        Assertions.assertEquals(result.getPrice(), product.getPrice());
+        Assertions.assertEquals(result.getImageUrl(), product.getImgUrl());
+        Assertions.assertEquals(result.getDescription(), product.getDescription());
+        Assertions.assertEquals(result.getCategories().getFirst().getId(), product.getCategories().iterator().next().getId());
     }
 }
