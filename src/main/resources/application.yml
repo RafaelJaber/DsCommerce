@@ -1,19 +1,10 @@
 spring:
   application:
     name: DsCommerce
-  datasource:
-    url: jdbc:sqlserver://localhost:1433;databaseName=ds_commerce;trustServerCertificate=true;
-    username: sa
-    password: Senha*01#
-  jpa:
-    generate-ddl: false
-    properties:
-      javax:
-        persistence:
-          schema-generation:
-            scripts:
-              action: create
-              create-target: src/main/resources/db/ddl.sql
+  jackson:
+    time-zone: UTC
+  profiles:
+    active: ${APP_PROFILE:test}
 dscommerce:
   security:
     client-id: ${CLIENT_ID:myclientid}
