@@ -57,6 +57,10 @@ public class ProductServiceTests {
         Mockito.when(productRepository.save(any())).thenReturn(product);
         Mockito.when(productRepository.getReferenceById(existingProductId)).thenReturn(product);
         Mockito.when(productRepository.getReferenceById(nonExistingProductId)).thenThrow(EntityNotFoundException.class);
+        Mockito.when(productRepository.existsById(existingProductId)).thenReturn(true);
+        Mockito.when(productRepository.existsById(nonExistingProductId)).thenReturn(false);
+        Mockito.doNothing().when(productRepository).deleteById(existingProductId);
+
     }
 
     @Test
@@ -122,5 +126,23 @@ public class ProductServiceTests {
             productService.update(nonExistingProductId, productDTO);
         });
         Mockito.verify(productRepository, Mockito.times(1)).getReferenceById(nonExistingProductId);
+    }
+
+    @Test
+    public void deleteShouldDoNothingWhenIdExists() {
+        Assertions.assertDoesNotThrow(() -> {
+            productService.deleteById(existingProductId);
+        });
+
+        Mockito.verify(productRepository, Mockito.times(1)).deleteById(existingProductId);
+    }
+
+    @Test
+    public void deleteShouldThrowsResourceNotFoundExceptionWhenIdDoesNotExist() {
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+            productService.deleteById(nonExistingProductId);
+        });
+
+        Mockito.verify(productRepository, Mockito.never()).deleteById(nonExistingProductId);
     }
 }
