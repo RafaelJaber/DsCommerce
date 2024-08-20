@@ -56,10 +56,14 @@ public class UserServices implements UserDetailsService {
     }
 
     protected User authenticated() {
-        String username = customUserUtil.getLoggedUserName();
+        try {
+            String username = customUserUtil.getLoggedUserName();
 
-        return userRepository.findByEmail(username).orElseThrow(
-                UserNotLoggedException::new
-        );
+            return userRepository.findByEmail(username).orElseThrow(
+                    UserNotLoggedException::new
+            );
+        } catch (ClassCastException e) {
+            throw new UsernameNotFoundException("User not found");
+        }
     }
 }
