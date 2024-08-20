@@ -4,6 +4,7 @@ import com.devsuperior.dscommerce.dto.ProductDTO;
 import com.devsuperior.dscommerce.dto.ProductMinDTO;
 import com.devsuperior.dscommerce.entities.Product;
 import com.devsuperior.dscommerce.repositories.ProductRepository;
+import com.devsuperior.dscommerce.services.exceptions.DatabaseException;
 import com.devsuperior.dscommerce.services.exceptions.ResourceNotFoundException;
 import com.devsuperior.dscommerce.tests.ProductFactory;
 import jakarta.persistence.EntityNotFoundException;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -36,7 +38,7 @@ public class ProductServiceTests {
     @Mock
     private ProductRepository productRepository;
 
-    private long existingProductId, nonExistingProductId;
+    private long existingProductId, nonExistingProductId, dependentProductId;
     private String productName;
     private Product product;
     private ProductDTO productDTO;
@@ -46,6 +48,7 @@ public class ProductServiceTests {
     void setUp() throws Exception {
         existingProductId = 1L;
         nonExistingProductId = 2L;
+        dependentProductId = 3L;
         productName = "Playstation 5";
         product = ProductFactory.createProduct(productName);
         productDTO = new ProductDTO(product);
@@ -59,8 +62,9 @@ public class ProductServiceTests {
         Mockito.when(productRepository.getReferenceById(nonExistingProductId)).thenThrow(EntityNotFoundException.class);
         Mockito.when(productRepository.existsById(existingProductId)).thenReturn(true);
         Mockito.when(productRepository.existsById(nonExistingProductId)).thenReturn(false);
+        Mockito.when(productRepository.existsById(dependentProductId)).thenReturn(true);
         Mockito.doNothing().when(productRepository).deleteById(existingProductId);
-
+        Mockito.doThrow(DataIntegrityViolationException.class).when(productRepository).deleteById(dependentProductId);
     }
 
     @Test
@@ -134,6 +138,7 @@ public class ProductServiceTests {
             productService.deleteById(existingProductId);
         });
 
+        Mockito.verify(productRepository, Mockito.times(1)).existsById(existingProductId);
         Mockito.verify(productRepository, Mockito.times(1)).deleteById(existingProductId);
     }
 
@@ -143,6 +148,17 @@ public class ProductServiceTests {
             productService.deleteById(nonExistingProductId);
         });
 
+        Mockito.verify(productRepository, Mockito.times(1)).existsById(nonExistingProductId);
         Mockito.verify(productRepository, Mockito.never()).deleteById(nonExistingProductId);
+    }
+
+    @Test
+    public void deleteShouldThrowsDatabaseExceptionWhenDependentProductId() {
+        Assertions.assertThrows(DatabaseException.class, () -> {
+            productService.deleteById(dependentProductId);
+        });
+
+        Mockito.verify(productRepository, Mockito.times(1)).existsById(dependentProductId);
+        Mockito.verify(productRepository, Mockito.times(1)).deleteById(dependentProductId);
     }
 }
