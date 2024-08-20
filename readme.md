@@ -13,7 +13,7 @@
 
 ![java][JAVA_BADGE]
 ![spring boot][SPRING_BOOT_BADGE]
-![spring security] [SPRING_SECURITY_BADGE]
+![spring security][SPRING_SECURITY_BADGE]
 ![Docker][DOCKER_BADGE]
 ![Swagger][SWAGGER_BADGE]
 ![MicrosoftSQL Server][SQLSERVER_BADGE]

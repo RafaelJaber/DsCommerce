@@ -1,5 +1,6 @@
 package com.devsuperior.dscommerce.services;
 
+import com.devsuperior.dscommerce.dto.UserDTO;
 import com.devsuperior.dscommerce.entities.User;
 import com.devsuperior.dscommerce.projections.UserDetailsProjection;
 import com.devsuperior.dscommerce.repositories.UserRepository;
@@ -101,5 +102,26 @@ public class UserServiceTests {
             userServices.authenticated();
         });
         Mockito.verify(userRepository, Mockito.times(1)).findByEmail(nonExistingUserName);
+    }
+
+    @Test
+    public void getCurrentUserShouldReturnUserDTOWhenUserAuthenticated() {
+        UserServices spyUserServices = Mockito.spy(userServices);
+        Mockito.doReturn(user).when(spyUserServices).authenticated();
+
+        UserDTO result = spyUserServices.getCurrentUser();
+
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(result.getEmail(), existingUserName);
+    }
+
+    @Test
+    public void getCurrentUserShouldThrowUserNotLoggedExceptionWhenUserNotAuthenticated() {
+        UserServices spyUserServices = Mockito.spy(userServices);
+        Mockito.doThrow(UserNotLoggedException.class).when(spyUserServices).authenticated();
+
+        Assertions.assertThrows(UserNotLoggedException.class, () -> {
+            UserDTO result = spyUserServices.getCurrentUser();
+        });
     }
 }
