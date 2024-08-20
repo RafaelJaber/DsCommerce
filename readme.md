@@ -1,8 +1,10 @@
 [JAVA_BADGE]: https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white
-[SPRING_BADGE]: https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white
+[SPRING_BOOT_BADGE]: https://img.shields.io/badge/Spring%20Boot-6DB33F.svg?style=for-the-badge&logo=Spring-Boot&logoColor=white
+[SPRING_SECURITY_BADGE]: https://img.shields.io/badge/Spring%20Security-6DB33F.svg?style=for-the-badge&logo=Spring-Security&logoColor=white
 [SQLSERVER_BADGE]: https://img.shields.io/badge/Microsoft%20SQL%20Server-CC2927?style=for-the-badge&logo=microsoft%20sql%20server&logoColor=white
 [SWAGGER_BADGE]: https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white
 [DOCKER_BADGE]: https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white
+
 
 <h1 align="center" style="font-weight: bold;">DSCommerce 🏬💻</h1>
 
@@ -10,7 +12,8 @@
 <div style="text-align: center;">
 
 ![java][JAVA_BADGE]
-![spring][SPRING_BADGE]
+![spring boot][SPRING_BOOT_BADGE]
+![spring security] [SPRING_SECURITY_BADGE]
 ![Docker][DOCKER_BADGE]
 ![Swagger][SWAGGER_BADGE]
 ![MicrosoftSQL Server][SQLSERVER_BADGE]
