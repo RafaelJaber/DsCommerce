@@ -15,7 +15,10 @@ public class AuthService {
 
     public void validateSelfOrAdmin(Long userId) {
         User me = userServices.authenticated();
-        if (!me.hasRole("ROLE_ADMIN") && !me.getId().equals(userId)) {
+        if (me.hasRole("ROLE_ADMIN")) {
+            return;
+        }
+        if (!me.getId().equals(userId)) {
             throw new ForbiddenException("You do not have permission to access this resource");
         }
     }
