@@ -1,6 +1,7 @@
 package com.devsuperior.dscommerce.services;
 
 import com.devsuperior.dscommerce.dto.ProductDTO;
+import com.devsuperior.dscommerce.dto.ProductMinDTO;
 import com.devsuperior.dscommerce.entities.Product;
 import com.devsuperior.dscommerce.repositories.ProductRepository;
 import com.devsuperior.dscommerce.services.exceptions.ResourceNotFoundException;
@@ -13,11 +14,17 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static org.mockito.ArgumentMatchers.any;
 
 @Tag("Unit")
 @ExtendWith(SpringExtension.class)
@@ -32,7 +39,7 @@ public class ProductServiceTests {
     private long existingProductId, nonExistingProductId;
     private String productName;
     private Product product;
-    private List<Product> products = new ArrayList<>();
+    private PageImpl<Product> productPage;
 
     @BeforeEach
     void setUp() throws Exception {
@@ -40,10 +47,12 @@ public class ProductServiceTests {
         nonExistingProductId = 2L;
         productName = "Playstation 5";
         product = ProductFactory.createProduct(productName);
-        products.add(product);
+        productPage = new PageImpl<>(List.of(product));
 
         Mockito.when(productRepository.findById(existingProductId)).thenReturn(Optional.of(product));
         Mockito.when(productRepository.findById(nonExistingProductId)).thenReturn(Optional.empty());
+
+        Mockito.when(productRepository.searchByName(any(), any(Pageable.class))).thenReturn(productPage);
     }
 
     @Test
@@ -63,5 +72,15 @@ public class ProductServiceTests {
         });
 
         Mockito.verify(productRepository, Mockito.times(1)).findById(nonExistingProductId);
+    }
+
+    @Test
+    public void findByNameShouldReturnProductDTOWhenNameExists() {
+        Pageable pageable = PageRequest.of(0, 12);
+        Page<ProductMinDTO> result = productService.findAll(productName, pageable);
+
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(result.getSize(), 1);
+        Assertions.assertEquals(result.getContent().getFirst().getName(), productName);
     }
 }
